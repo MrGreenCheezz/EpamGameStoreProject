@@ -1,0 +1,19 @@
+﻿using CapstoneProjectLibrary.Models;
+using System;
+using System.Collections.Generic;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace CapstoneProjectLibrary.Interfaces
+{
+    public interface IRepository
+    {
+        public int GetQuantity();
+        public Task<int> AddGame(GameItem item);
+        public List<GameItem> GetItemsWithPagination(int amount, int offset = 0);
+        public GameItem GetGame(int id);
+        public Task DeleteGame(int id);
+        public Task<int> CopyGame(int id);
+        public Task EditGame(int id, string name, string description, float price, string genres);
+    }
+}

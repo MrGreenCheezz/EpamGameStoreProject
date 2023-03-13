@@ -1,0 +1,25 @@
+.Card {
+    border-style: solid;
+    border: 20px;
+    max-width: fit-content;
+    width: fit-content;
+    position: relative;
+    margin: 0;
+    margin-left: 5px;
+}
+
+.CardPrice{
+    position: absolute;
+    top: 230px;
+    left: 20px;
+    color: white;
+    font-size: 25px;
+}
+
+.CardTitle{
+    position: absolute;
+    top: 270px;
+    left: 20px;
+    color:  white;
+    font-size: 20px;
+}

@@ -1,0 +1,4 @@
+.MainShowcase{
+    display: flex;
+    flex-wrap: wrap;
+}
