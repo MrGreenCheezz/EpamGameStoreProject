@@ -33,6 +33,8 @@ namespace CapstoneProjectAPI
 
             services.AddControllers();
 
+            services.AddScoped<IDbConfig, DbConfiguration>();
+
             services.AddSingleton<IRepository, GameRepository>();
 
             services.AddCors(c =>

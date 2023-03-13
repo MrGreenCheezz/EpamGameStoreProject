@@ -1,4 +1,5 @@
-﻿using CapstoneProjectLibrary.Models;
+﻿using CapstoneProjectLibrary.Interfaces;
+using CapstoneProjectLibrary.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using System;
@@ -19,7 +20,7 @@ namespace CapstoneProjectLibrary
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            var config = new ConfigurationBuilder().AddJsonFile("appsettings.Development.json").Build();         
+            var config = new ConfigurationBuilder().AddJsonFile("appsettings.Development.json").Build();
             optionsBuilder.UseNpgsql(config.GetValue<string>("ConnectionStrings:Value"));
         }    
     }
