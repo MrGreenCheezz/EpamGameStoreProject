@@ -1,16 +1,20 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 import App from './App'
-import GamesShowcase from './components/GamesShowcase'
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './index.css'
-import NavigationModule from './components/NavigationModule';
-import SiteFooter from './components/SiteFooter';
+import GameFullPage from './GameFullPage';
+
+
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
-    <NavigationModule></NavigationModule>
-    <GamesShowcase></GamesShowcase>
-    <SiteFooter></SiteFooter>
+    <BrowserRouter>
+    <Routes>
+      <Route path='/' element={<App></App>}></Route>
+      <Route path='/game/:id' element={<GameFullPage/>}></Route>
+    </Routes>
+    </BrowserRouter>
   </React.StrictMode>,
 )

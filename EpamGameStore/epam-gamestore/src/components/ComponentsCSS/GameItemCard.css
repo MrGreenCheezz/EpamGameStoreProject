@@ -14,7 +14,7 @@
 }
 .CardPrice{
     color: white;
-    font-size: 25px;
+    font-size: 30px;
 }
 
 .CardTitle{
@@ -51,4 +51,14 @@
     background: rgba(0, 0, 0, 0.658);
     width: 100%;
     height: 35%;
+}
+
+.custom-bg a{
+    text-decoration: none;
+    color: white;
+}
+
+.custom-bg a:hover{
+    text-decoration: none;
+    color: white;
 }

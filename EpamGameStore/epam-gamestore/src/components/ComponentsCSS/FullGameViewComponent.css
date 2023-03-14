@@ -1,0 +1,47 @@
+.GameMainContainer{
+    background-color: rgb(43, 43, 43);
+    width: 90%;
+    margin: auto;
+    height: 100vh;
+}
+
+.GamePicture img{
+    width: 80%;
+    height: 40vh;
+    object-fit:contain;
+    margin-left: auto;
+    display: block;
+    margin-right: auto;
+}
+.GamePicture{
+    align-content: center;
+}
+
+.GameInfo{
+    color: white;
+}
+.GameCard{
+    margin-left: auto;
+    margin-right: auto;
+    width: 80%;
+}
+.GameName{
+    font-size: 30px;
+}
+
+.GamePrice{
+    font-size: 30px;
+}
+
+.GameGenres{
+    font-size: 20px;
+}
+
+.GameDescription{
+    font-size: 15px;
+}
+
+.GameCardHeader{
+    display: flex;
+    justify-content: space-between;
+}

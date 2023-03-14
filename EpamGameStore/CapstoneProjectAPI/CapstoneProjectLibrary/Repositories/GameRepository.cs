@@ -59,7 +59,7 @@ namespace CapstoneProjectLibrary.Repositories
 
         public  List<GameItem> GetItemsWithPagination(int amount, int offset = 0)
         {
-            var returnList = entityContext.Games.OrderByDescending(item => item.Id).Skip(offset * amount).Take(amount).ToList();
+            var returnList = entityContext.Games.OrderByDescending(item => item.Id).Skip(Math.Abs(offset * amount)).Take(Math.Abs(amount)).ToList();
             return returnList;
         }
 

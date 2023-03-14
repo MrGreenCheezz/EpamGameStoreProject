@@ -9,3 +9,11 @@
     flex-grow: 1;
     align-content: start;
 }
+.CardContainer{
+    display: flex;
+    flex-wrap: wrap;
+
+}
+.Pagination{
+    margin:auto;
+}

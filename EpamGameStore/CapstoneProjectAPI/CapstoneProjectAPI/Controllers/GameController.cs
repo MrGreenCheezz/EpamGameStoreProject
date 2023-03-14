@@ -67,5 +67,12 @@ namespace CapstoneProjectAPI.Controllers
 
             return Ok();
         }
+
+        [Route("getItem")]
+        [HttpGet]
+        public GameItem GetGame(int id)
+        {
+            return GameRepo.GetGame(id);
+        }
     }
 }
