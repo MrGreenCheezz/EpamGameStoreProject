@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import GameItemCard from './GameItemCard';
-import './GameShowcase.css'
+import './ComponentsCSS/GameShowcase.css'
 
 export default class GamesShowcase extends Component {
     constructor(props) {

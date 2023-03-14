@@ -1,0 +1,54 @@
+.Card {
+    border-style: solid;
+    border: 20px;
+    width: 400px;
+    height: 250px;
+    position: relative;
+    margin: 0;
+    margin-left: 10px;
+    margin-top: 20px;
+    
+}
+.Custom{
+    margin-left: 15px;
+}
+.CardPrice{
+    color: white;
+    font-size: 25px;
+}
+
+.CardTitle{
+    color:  white;
+    font-size: 20px;
+    
+}
+
+.CardText{
+    position: absolute;
+    width: 100%;
+    top:80%;
+    opacity: 0.3;
+    overflow: auto;
+    background-blend-mode: multiply;
+
+    
+}
+
+
+.CardBody{
+    position: relative;
+}
+
+.CardText span{
+    position: relative;
+    background: black;
+    background: rgba(0, 0, 0, 0.658);
+    background-blend-mode: multiply;
+
+}
+
+.custom-bg{
+    background: rgba(0, 0, 0, 0.658);
+    width: 100%;
+    height: 35%;
+}

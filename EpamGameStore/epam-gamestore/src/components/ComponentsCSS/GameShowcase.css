@@ -1,0 +1,11 @@
+.MainShowcase{
+    background-color: rgb(43, 43, 43);
+    display: flex;
+    flex-wrap: wrap;
+    max-width: 1250px;
+    margin: 0 auto;
+    height: 100%;
+    flex: 1 1 100%;
+    flex-grow: 1;
+    align-content: start;
+}
