@@ -34,7 +34,7 @@ async ChangeCurrentPage(newPage){
   }
 
   async GetItemsFromApi(offset) {
-    const response = await fetch("http://localhost:21409/getItems?amount=" + this.state.MaxItemsOnPage + "&offset=" + offset);
+    const response = await fetch("http://localhost:21409/getGames?amount=" + this.state.MaxItemsOnPage + "&offset=" + offset);
     const jsonResult = await response.json()
     return jsonResult;
   }

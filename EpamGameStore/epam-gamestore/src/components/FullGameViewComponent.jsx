@@ -21,7 +21,7 @@ export default class FullGameViewComponent extends Component {
     }
 
     async GetItemFromApi(id) {
-        const response = await fetch("http://localhost:21409/getItem?id=" + id);
+        const response = await fetch("http://localhost:21409/getGame?id=" + id);
         const jsonResult = await response.json()
         return jsonResult;
     }

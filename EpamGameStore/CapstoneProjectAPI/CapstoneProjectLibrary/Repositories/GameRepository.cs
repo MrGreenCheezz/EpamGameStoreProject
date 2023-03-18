@@ -15,13 +15,19 @@ namespace CapstoneProjectLibrary.Repositories
         {
             entityContext = new EntityContext();
         }
-        public async Task<int> AddGame(GameItem item)
+
+        public GameRepository(EntityContext entityContext)
+        {
+            this.entityContext = entityContext;
+        }
+
+        public int AddGame(GameItem item)
         {
 
             var id = CheckGame(item, entityContext);
 
-            await entityContext.Games.AddAsync(item);
-            await entityContext.SaveChangesAsync();
+            entityContext.Games.AddAsync(item);
+            entityContext.SaveChangesAsync();
             return id;
         }
 
@@ -52,7 +58,7 @@ namespace CapstoneProjectLibrary.Repositories
             var listItem = entityContext.Games.FirstOrDefault(i => i.Id == id);
             var newItem = listItem;
             newItem.Id = null;
-            var newItemId = await AddGame(listItem);
+            var newItemId = AddGame(listItem);
             return newItemId;
 
         }

@@ -9,7 +9,7 @@ namespace CapstoneProjectLibrary.Interfaces
     public interface IRepository
     {
         public int GetQuantity();
-        public Task<int> AddGame(GameItem item);
+        public int AddGame(GameItem item);
         public List<GameItem> GetItemsWithPagination(int amount, int offset = 0);
         public GameItem GetGame(int id);
         public Task DeleteGame(int id);

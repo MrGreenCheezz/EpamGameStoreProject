@@ -18,16 +18,16 @@ namespace CapstoneProjectAPI.Controllers
             GameRepo = gameRepo;
         }
         
-        [Route("getItems")]
+        [Route("getGames")]
         [HttpGet]
-        public List<GameItem> GetItemsWithPagination(int amount, int offset = 0)
+        public List<GameItem> GetGamesWithPagination(int amount, int offset = 0)
         {
               return GameRepo.GetItemsWithPagination(amount, offset);         
         }
 
-        [Route("editItem")]
+        [Route("editGame")]
         [HttpPost]
-        public async Task<IActionResult> PostEditItem( int id, string name = null, string description = null,
+        public async Task<IActionResult> PostEditGame( int id, string name = null, string description = null,
            float price = 0, string genres = null)
         {
             
@@ -35,9 +35,9 @@ namespace CapstoneProjectAPI.Controllers
             return Ok();
         }
 
-        [Route("addItem")]
+        [Route("addGame")]
         [HttpPost]
-        public async Task<IActionResult> AddItem(string name, string description, float price, string genres)
+        public int AddGame(string name, string description, float price, string genres)
         {
             var item = new GameItem();
 
@@ -47,28 +47,28 @@ namespace CapstoneProjectAPI.Controllers
             item.Genres = genres;
 
             
-            var id = await GameRepo.AddGame(item);
+            var id = GameRepo.AddGame(item);
 
-            return Ok(id);
+            return id;
         }
 
-        [Route("getItemsCount")]
+        [Route("getGamesCount")]
         [HttpGet]
         public int GetCount()
         {
             return GameRepo.GetQuantity();
         }
 
-        [Route("deleteItem")]
+        [Route("deleteGame")]
         [HttpPost]
-        public async Task<IActionResult> DeleteItem(int id)
+        public async Task<IActionResult> DeleteGame(int id)
         {
             await GameRepo.DeleteGame(id);
 
             return Ok();
         }
 
-        [Route("getItem")]
+        [Route("getGame")]
         [HttpGet]
         public GameItem GetGame(int id)
         {
