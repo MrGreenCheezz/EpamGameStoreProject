@@ -29,8 +29,6 @@ namespace CapstoneProjectAPI
         public void ConfigureServices(IServiceCollection services)
         {
 
-            //services.Configure<DbConfiguration>(Configuration.GetSection("ConnectionStrings"));
-
             services.AddControllers();
 
             services.AddScoped<IDbConfig, DbConfiguration>();

@@ -24,7 +24,7 @@ export default class PaginationComponent extends Component {
         return (
             <div>
                 <nav aria-label="Page navigation">
-                    <ul className="pagination" style={{"--bs-pagination-bg": "black", "--bs-pagination-color": "white"}}>
+                    <ul className="pagination" style={{"--bs-pagination-bg": "black", "--bs-pagination-color": "white", marginTop: 15}}>
                         <li className="page-item">
                             <a className="page-link"  aria-label="Previous" onClick={()=> this.ChangeCurrentPage(-1)}>
                                 <span aria-hidden="true">&laquo;</span>

@@ -1,7 +1,10 @@
 ﻿using CapstoneProjectLibrary.Interfaces;
 using CapstoneProjectLibrary.Models;
+using CapstoneProjectLibrary.Tools;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -21,11 +24,16 @@ namespace CapstoneProjectLibrary.Repositories
             this.entityContext = entityContext;
         }
 
-        public int AddGame(GameItem item)
+        public int AddGame(GameItem item, IFormFile? file)
         {
 
             var id = CheckGame(item, entityContext);
 
+            if(file != null)
+            {
+               item.ImageUrl = ImageTool.SaveImage(file);
+            }      
+            
             entityContext.Games.AddAsync(item);
             entityContext.SaveChangesAsync();
             return id;
@@ -58,7 +66,7 @@ namespace CapstoneProjectLibrary.Repositories
             var listItem = entityContext.Games.FirstOrDefault(i => i.Id == id);
             var newItem = listItem;
             newItem.Id = null;
-            var newItemId = AddGame(listItem);
+            var newItemId = AddGame(listItem, null);
             return newItemId;
 
         }
@@ -75,7 +83,7 @@ namespace CapstoneProjectLibrary.Repositories
             return count;
         }
 
-        public async Task EditGame(int id, string name, string description, float price, string genres)
+        public async Task EditGame(int id, string name, string description, float price, string genres, IFormFile? file)
         {
 
             CheckGame(id, entityContext);
@@ -100,6 +108,11 @@ namespace CapstoneProjectLibrary.Repositories
             if (genres != null)
             {
                 item.Genres = genres;
+            }
+
+            if(file != null)
+            {
+                item.ImageUrl = ImageTool.SaveImage(file);
             }
 
             await entityContext.SaveChangesAsync();

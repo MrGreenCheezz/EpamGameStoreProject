@@ -1,7 +1,6 @@
 ﻿using CapstoneProjectLibrary.Models;
-using System;
+using Microsoft.AspNetCore.Http;
 using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace CapstoneProjectLibrary.Interfaces
@@ -9,11 +8,11 @@ namespace CapstoneProjectLibrary.Interfaces
     public interface IRepository
     {
         public int GetQuantity();
-        public int AddGame(GameItem item);
+        public int AddGame(GameItem item, IFormFile file);
         public List<GameItem> GetItemsWithPagination(int amount, int offset = 0);
         public GameItem GetGame(int id);
         public Task DeleteGame(int id);
         public Task<int> CopyGame(int id);
-        public Task EditGame(int id, string name, string description, float price, string genres);
+        public Task EditGame(int id, string name, string description, float price, string genres, IFormFile file);
     }
 }

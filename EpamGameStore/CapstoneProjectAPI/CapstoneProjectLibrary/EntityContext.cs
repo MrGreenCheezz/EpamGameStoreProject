@@ -11,17 +11,17 @@ namespace CapstoneProjectLibrary
     public class EntityContext : DbContext
     {
         public DbSet<GameItem> Games { get; set; }
+        private readonly IDbConfig _configuration = new DbConfiguration();
 
         public EntityContext()
         {
-            Database.EnsureCreated();
+            Database.EnsureCreated();        
         }
 
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            var config = new ConfigurationBuilder().AddJsonFile("appsettings.Development.json").Build();
-            optionsBuilder.UseNpgsql(config.GetValue<string>("ConnectionStrings:Value"));
+            optionsBuilder.UseNpgsql(_configuration.GetConnectionString(ConfigurationTypes.Development));
         }    
     }
 }

@@ -10,13 +10,18 @@ export default class FullGameViewComponent extends Component {
             GamePrice: 0,
             GameDescription: "",
             GameId: 0,
-            GameGenres: ""
+            GameGenres: "",
+            ImageUrl: ""
         }
     }
 
     async componentDidMount() {
         const result = await this.GetItemFromApi(this.props.Id);
-        this.setState({ GameName: result.name, GamePrice: result.price, GameDescription: result.description, GameId: result.id, GameGenres: result.genres });
+        this.setState({
+            GameName: result.name,
+            GamePrice: result.price,
+            GameDescription: result.description, GameId: result.id, GameGenres: result.genres, ImageUrl: result.imageUrl
+        });
 
     }
 
@@ -31,10 +36,10 @@ export default class FullGameViewComponent extends Component {
             <div className='GameMainContainer'>
                 <div className='GameCard'>
                     <div className='GamePicture'>
-                        <img src='https://i.ytimg.com/vi/mc2hz3LJhTY/maxresdefault.jpg'></img>
+                        <img src={this.state.ImageUrl}></img>
                     </div>
                     <div className='GameInfo'>
-                        <div  className='GameCardHeader'>
+                        <div className='GameCardHeader'>
                             <div>
                                 <div className='GameName'>
                                     <p>{this.state.GameName}</p>
@@ -57,7 +62,7 @@ export default class FullGameViewComponent extends Component {
                     </div>
                 </div>
                 <hr style={{ "height": "2px", "width": "100%", "borderWidth": 0, "color": "white", "backgroundColor": "white" }}></hr>
-                <p style={{color:"white"}}>Here belongs comment section, they will be later!</p>
+                <p style={{ color: "white" }}>Here belongs comment section, they will be later!</p>
             </div>
         )
     }

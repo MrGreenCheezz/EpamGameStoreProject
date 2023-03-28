@@ -46,7 +46,7 @@ namespace GameStoreTests
             var dummyDescription = "Description 1";
             var dummyPrice = 19.99f;
             var dummyGenres = "Action";
-            _mockRepository.Setup(repo => repo.EditGame(dummyId, dummyName, dummyDescription, dummyPrice, dummyGenres)).Verifiable();
+            _mockRepository.Setup(repo => repo.EditGame(dummyId, dummyName, dummyDescription, dummyPrice, dummyGenres, null)).Verifiable();
 
             // Act
             var result = await _controller.PostEditGame(dummyId, dummyName, dummyDescription, dummyPrice, dummyGenres);
@@ -65,10 +65,10 @@ namespace GameStoreTests
             var dummyPrice = 19.99f;
             var dummyGenres = "Action";
             var expectedId = 1;
-            _mockRepository.Setup(repo => repo.AddGame(It.IsAny<GameItem>())).Returns(expectedId);
+            _mockRepository.Setup(repo => repo.AddGame(It.Is<GameItem>(i => i.Name == dummyName && i.Description == dummyDecription), null)).Returns(expectedId);
 
             // Act
-            var result = _controller.AddGame(dummyName, dummyDecription, dummyPrice, dummyGenres);
+            var result = _controller.AddGame(dummyName, dummyDecription, dummyPrice, dummyGenres, null);
 
             // Assert
             Assert.That(expectedId == result);

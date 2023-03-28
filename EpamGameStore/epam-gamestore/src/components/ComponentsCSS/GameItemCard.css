@@ -1,7 +1,7 @@
 .Card {
     border-style: solid;
     border: 20px;
-    width: 400px;
+    width: fit-content;
     height: 250px;
     position: relative;
     margin: 0;
@@ -11,6 +11,7 @@
 }
 .Custom{
     margin-left: 15px;
+    width: fit-content;
 }
 .CardPrice{
     color: white;
