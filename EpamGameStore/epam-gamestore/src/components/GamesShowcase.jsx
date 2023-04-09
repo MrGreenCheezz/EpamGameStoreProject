@@ -37,7 +37,7 @@ export default class GamesShowcase extends Component {
   }
 
   async GetItemsFromApi(offset) {
-    const response = await fetch("http://localhost:21409/getGames?amount=" + this.state.MaxItemsOnPage + "&offset=" + offset);
+    const response = await fetch("http://localhost:21409/api/games/getGames?amount=" + this.state.MaxItemsOnPage + "&offset=" + offset);
     const jsonResult = await response.json()
     return jsonResult;
   }

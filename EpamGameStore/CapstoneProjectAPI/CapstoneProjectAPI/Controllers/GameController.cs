@@ -47,7 +47,6 @@ namespace CapstoneProjectAPI.Controllers
             item.Name = name;
             item.Description = description;
             item.Price = price;
-            item.Genres = genres;
             
             
             var id = GameRepo.AddGame(item, file);

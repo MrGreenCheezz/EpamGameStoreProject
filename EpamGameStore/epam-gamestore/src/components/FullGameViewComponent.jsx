@@ -22,11 +22,13 @@ export default class FullGameViewComponent extends Component {
             GamePrice: result.price,
             GameDescription: result.description, GameId: result.id, GameGenres: result.genres, ImageUrl: result.imageUrl
         });
-
+        if(this.state.ImageUrl == null){
+            this.setState({ImageUrl: "https://raw.githubusercontent.com/openintents/filemanager/master/promotion/icons/ic_launcher_filemanager_512.png"});
+        }
     }
 
     async GetItemFromApi(id) {
-        const response = await fetch("http://localhost:21409/getGame?id=" + id);
+        const response = await fetch("http://localhost:21409/api/games/getGame?id=" + id);
         const jsonResult = await response.json()
         return jsonResult;
     }

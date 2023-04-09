@@ -105,11 +105,6 @@ namespace CapstoneProjectLibrary.Repositories
                 item.Price = price;
             }
 
-            if (genres != null)
-            {
-                item.Genres = genres;
-            }
-
             if(file != null)
             {
                 item.ImageUrl = ImageTool.SaveImage(file);

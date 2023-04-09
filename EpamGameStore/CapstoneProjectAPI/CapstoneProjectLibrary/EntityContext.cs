@@ -11,6 +11,9 @@ namespace CapstoneProjectLibrary
     public class EntityContext : DbContext
     {
         public DbSet<GameItem> Games { get; set; }
+        public DbSet<GameGenres> GameGenres { get; set; }
+        public DbSet<GenresList> genresList { get; set; }
+
         private readonly IDbConfig _configuration = new DbConfiguration();
 
         public EntityContext()
