@@ -4,7 +4,6 @@ using CapstoneProjectLibrary.Tools;
 using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -27,7 +26,7 @@ namespace CapstoneProjectLibrary.Repositories
         public int AddGame(GameItem item, IFormFile? file)
         {
 
-            var id = CheckGame(item, entityContext);
+            var id = CheckGameId(item, entityContext);
 
             if(file != null)
             {
@@ -71,10 +70,30 @@ namespace CapstoneProjectLibrary.Repositories
 
         }
 
-        public  List<GameItem> GetItemsWithPagination(int amount, int offset = 0)
+        public  List<GameItem> GetItemsWithPagination(int amount, int offset = 0, List<string> genresFilter = null)
         {
-            var returnList = entityContext.Games.OrderByDescending(item => item.Id).Skip(Math.Abs(offset * amount)).Take(Math.Abs(amount)).ToList();
-            return returnList;
+            var returnList = entityContext.Games.OrderByDescending(item => item.Id);
+            var test = entityContext.GameGenres.Select(e => e);
+           
+            if(genresFilter != null && genresFilter.Count != 0)
+            {
+                var genresNameList = entityContext.genresList.Where(e => genresFilter.Contains(e.Name)).Select(e => e.Id);
+                //Попробовать провернуть как тут var genresNameList = entityContext.genresList.Where(e => genresIdList.Contains(e.Id)).Select(e => e); но только 
+                //добавив Distinct
+                //Вариант поэтапно отсеивать из списка всех игр с жанрами при этом каждый след шаг будет отсеивать уже предыдущий результат
+                var genresList = entityContext.genresList.Where(i => genresFilter.Contains(i.Name)).Select(e => e);
+                foreach(var genres in genresNameList)
+                {
+                    test = test.Where(g => g.GenreId == genres).Select(e => e);
+                }
+                var ids = test.Select(e => e.GameId);
+
+                var newReturnList = returnList.Where(e => ids.Contains((int)e.Id)).Select(g => g);
+
+                return newReturnList.Skip(Math.Abs(offset * amount)).Take(Math.Abs(amount)).ToList();
+            }
+
+            return returnList.Skip(Math.Abs(offset * amount)).Take(Math.Abs(amount)).ToList();
         }
 
         public int GetQuantity()
@@ -83,7 +102,7 @@ namespace CapstoneProjectLibrary.Repositories
             return count;
         }
 
-        public async Task EditGame(int id, string name, string description, float price, string genres, IFormFile? file)
+        public async Task EditGame(int id, string name, string description, float price, IFormFile? file)
         {
 
             CheckGame(id, entityContext);
@@ -112,7 +131,7 @@ namespace CapstoneProjectLibrary.Repositories
 
             await entityContext.SaveChangesAsync();
         }
-        private int CheckGame(GameItem item, EntityContext baseContext)
+        private int CheckGameId(GameItem item, EntityContext baseContext)
         {
             if (item == null)
             {

@@ -59,7 +59,7 @@ export default class GamesShowcase extends Component {
         </div>
         <div className='CardContainer'>
           {this.state.Items.map(item => (
-            <GameItemCard Title={item.name} Price={item.price} key={item.id} Id={item.id} ImageUrl={item.imageUrl}></GameItemCard>
+            <GameItemCard Title={item.name} Price={item.price} key={item.id} Id={item.id} ImageUrl={item.imageUrl} Description={item.description}></GameItemCard>
           ))}
         </div>
         <div className='Pagination'>

@@ -35,6 +35,8 @@ namespace CapstoneProjectAPI
 
             services.AddSingleton<IRepository, GameRepository>();
 
+            services.AddSingleton<IGenresRepository, GameGenresRepository>();
+
             services.AddCors(c =>
             {
                 c.AddPolicy("AllowOrigin", options => options.AllowAnyOrigin().AllowAnyMethod());
