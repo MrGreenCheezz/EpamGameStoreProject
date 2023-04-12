@@ -69,7 +69,8 @@ namespace CapstoneProjectLibrary.Repositories
             return newItemId;
 
         }
-
+        //TODO: Problems with filters here
+        //TODO: Replace abs with validation
         public  List<GameItem> GetItemsWithPagination(int amount, int offset = 0, List<string> genresFilter = null)
         {
             var returnList = entityContext.Games.OrderByDescending(item => item.Id);
@@ -78,9 +79,6 @@ namespace CapstoneProjectLibrary.Repositories
             if(genresFilter != null && genresFilter.Count != 0)
             {
                 var genresNameList = entityContext.genresList.Where(e => genresFilter.Contains(e.Name)).Select(e => e.Id);
-                //Попробовать провернуть как тут var genresNameList = entityContext.genresList.Where(e => genresIdList.Contains(e.Id)).Select(e => e); но только 
-                //добавив Distinct
-                //Вариант поэтапно отсеивать из списка всех игр с жанрами при этом каждый след шаг будет отсеивать уже предыдущий результат
                 var genresList = entityContext.genresList.Where(i => genresFilter.Contains(i.Name)).Select(e => e);
                 foreach(var genres in genresNameList)
                 {
