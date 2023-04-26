@@ -103,5 +103,6 @@
 }
 
 .EditGameForm{
-
+    border-color: grey;
+    border-radius: 15px;
 }

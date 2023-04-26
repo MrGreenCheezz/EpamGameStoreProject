@@ -98,21 +98,23 @@ DeleteGameRequest() {
         </div>
         <div className='EditGameScreen' style={{display: this.state.EditState}} >
           <div className='EditGameForm'>
-              <div className='row AddGameField'>
-                <input value={this.state.GameName} placeholder={"Game name.."}
-                  onChange={(event) => this.setState({ GameName: event.target.value })}></input>
-              </div>
-              <div className='row AddGameField'>
-                <input value={this.state.GameDescription} placeholder={"Game description.."}
-                  onChange={(event) => this.setState({ GameDescription: event.target.value })}></input>
-              </div>
-              <div className='row AddGameField'>
-                <input value={this.state.GamePrice} placeholder={"Game price.."}
-                  onChange={(event) => this.setState({ GamePrice: event.target.value })} type="number"></input>
-              </div>
-              <div className='row AddGameField'>
-                <button type="button" className='btn btn-success' style={{ width: 120, height: 40, marginTop: 10 }} onClick={this.EditGameRequest}>EditGame</button>
-                <button type="button" className='btn btn-success' style={{ width: 120, height: 40, marginTop: 10 }} onClick={this.closeEditMenuClicked}>CloseMenu</button>
+              <div>
+                <div className='row AddGameField'>
+                  <input value={this.state.GameName} placeholder={"Game name.."}
+                    onChange={(event) => this.setState({ GameName: event.target.value })}></input>
+                </div>
+                <div className='row AddGameField'>
+                  <input value={this.state.GameDescription} placeholder={"Game description.."}
+                    onChange={(event) => this.setState({ GameDescription: event.target.value })}></input>
+                </div>
+                <div className='row AddGameField'>
+                  <input value={this.state.GamePrice} placeholder={"Game price.."}
+                    onChange={(event) => this.setState({ GamePrice: event.target.value })} type="number"></input>
+                </div>
+                <div className='row AddGameField'>
+                  <button type="button" className='btn btn-success' style={{ width: 120, height: 40, marginTop: 10 }} onClick={this.EditGameRequest}>EditGame</button>
+                  <button type="button" className='btn btn-success' style={{ width: 120, height: 40, marginTop: 10 }} onClick={this.closeEditMenuClicked}>CloseMenu</button>
+                </div>
               </div>
           </div>
         </div>

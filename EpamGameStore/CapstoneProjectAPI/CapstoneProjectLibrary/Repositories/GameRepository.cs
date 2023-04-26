@@ -69,28 +69,22 @@ namespace CapstoneProjectLibrary.Repositories
             return newItemId;
 
         }
-        //TODO: Problems with filters here
-        //TODO: Replace abs with validation
-        public  List<GameItem> GetItemsWithPagination(int amount, int offset = 0, List<string> genresFilter = null)
+        public  List<GameItem> GetItemsWithPagination(int amount, int offset = 0, List<int> genresFilter = null)
         {
             var returnList = entityContext.Games.OrderByDescending(item => item.Id);
-            var test = entityContext.GameGenres.Select(e => e);
-           
             if(genresFilter != null && genresFilter.Count != 0)
             {
-                var genresNameList = entityContext.genresList.Where(e => genresFilter.Contains(e.Name)).Select(e => e.Id);
-                var genresList = entityContext.genresList.Where(i => genresFilter.Contains(i.Name)).Select(e => e);
-                foreach(var genres in genresNameList)
+                var tmpGamesList = new List<GameGenres>();
+                tmpGamesList = entityContext.GameGenres.ToList();
+                foreach(var genre in genresFilter)
                 {
-                    test = test.Where(g => g.GenreId == genres).Select(e => e);
+                    var tmpFilteredList = tmpGamesList.Where(g => g.GenreId == genre).Select(g => g.GameId).ToList();
+                    tmpGamesList = entityContext.GameGenres.Where(g => tmpFilteredList.Contains(g.GameId)).ToList();
                 }
-                var ids = test.Select(e => e.GameId);
-
-                var newReturnList = returnList.Where(e => ids.Contains((int)e.Id)).Select(g => g);
-
-                return newReturnList.Skip(Math.Abs(offset * amount)).Take(Math.Abs(amount)).ToList();
+                var gamesIds = tmpGamesList.Select(g => g.GameId).ToList();
+                var gamesToReturn = entityContext.Games.Where(g => gamesIds.Contains((int)g.Id)).Skip(Math.Abs(offset * amount)).Take(Math.Abs(amount)).ToList();
+                return gamesToReturn;
             }
-
             return returnList.Skip(Math.Abs(offset * amount)).Take(Math.Abs(amount)).ToList();
         }
 

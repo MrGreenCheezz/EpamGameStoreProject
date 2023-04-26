@@ -42,6 +42,7 @@ export default class GamesShowcase extends Component {
     return jsonResult;
   }
 
+  
   AddGameButtonClicked() {
     this.setState({ ShowAddGame: !this.state.ShowAddGame })
   }

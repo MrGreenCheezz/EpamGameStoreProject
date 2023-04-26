@@ -9,7 +9,7 @@ namespace CapstoneProjectLibrary.Interfaces
     {
         public int GetQuantity();
         public int AddGame(GameItem item, IFormFile file);
-        public List<GameItem> GetItemsWithPagination(int amount, int offset = 0, List<string> genresFilter = null);
+        public List<GameItem> GetItemsWithPagination(int amount, int offset = 0, List<int> genresFilter = null);
         public GameItem GetGame(int id);
         public Task DeleteGame(int id);
         public Task<int> CopyGame(int id);

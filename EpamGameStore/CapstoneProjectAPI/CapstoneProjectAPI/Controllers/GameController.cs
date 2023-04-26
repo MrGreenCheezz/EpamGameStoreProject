@@ -24,7 +24,7 @@ namespace CapstoneProjectAPI.Controllers
 
         [Route("api/games/getGames")]
         [HttpGet]
-        public List<GameItem> GetGamesWithPagination(int amount, int offset = 0, List<string> genresFilter = null)
+        public List<GameItem> GetGamesWithPagination(int amount, int offset = 0, List<int> genresFilter = null)
         {
               return GameRepo.GetItemsWithPagination(amount, offset, genresFilter);         
         }
