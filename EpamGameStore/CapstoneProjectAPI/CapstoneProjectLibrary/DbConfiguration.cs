@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using Microsoft.Extensions.Configuration;
 using System.Text;
 using CapstoneProjectLibrary.Interfaces;
+using Microsoft.Extensions.Configuration;
 
 namespace CapstoneProjectLibrary
 {
@@ -15,8 +15,8 @@ namespace CapstoneProjectLibrary
 
         public DbConfiguration()
         {
-            _connectionString = _configBuilder.AddJsonFile("appsettings.json").Build().GetValue<string>("ConnectionStrings:Value");
-            _developmentConnectionString = _configBuilder.AddJsonFile("appsettings.Development.json").Build().GetValue<string>("ConnectionStrings:Value");
+            _connectionString = _configBuilder.AddJsonFile("appsettings.json").Build().GetConnectionString("ConnectionStrings:Value");
+            _developmentConnectionString = _configBuilder.AddJsonFile("appsettings.Development.json").Build().GetConnectionString("Value");
         }
 
         public string GetConnectionString(ConfigurationTypes configType)
