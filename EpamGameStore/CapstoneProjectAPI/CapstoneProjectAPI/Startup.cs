@@ -1,8 +1,10 @@
 using CapstoneProjectLibrary;
 using CapstoneProjectLibrary.Interfaces;
 using CapstoneProjectLibrary.Repositories;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -29,17 +31,30 @@ namespace CapstoneProjectAPI
         public void ConfigureServices(IServiceCollection services)
         {
 
-            services.AddControllers();
+            services.AddControllersWithViews();
 
             services.AddScoped<IDbConfig, DbConfiguration>();
 
             services.AddSingleton<IRepository, GameRepository>();
 
+            services.AddSingleton<IUsersRepository, UsersRepository>();
+
             services.AddSingleton<IGenresRepository, GameGenresRepository>();
+
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+               .AddCookie(options =>
+               {
+                   options.Cookie.Name = ".GameStoreCookie";
+                   options.Cookie.SameSite = SameSiteMode.None;
+                   options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
+                   options.Cookie.Path = "/";
+                   options.Cookie.HttpOnly = true;
+               });
 
             services.AddCors(c =>
             {
-                c.AddPolicy("AllowOrigin", options => options.AllowAnyOrigin().AllowAnyMethod());
+                c.AddPolicy("AllowOrigin", options => options.WithOrigins("http://127.0.0.1:5173")
+               .AllowAnyHeader().AllowAnyMethod().AllowCredentials());
             });
             services.AddSwaggerGen(c =>
             {
@@ -58,9 +73,11 @@ namespace CapstoneProjectAPI
             }
 
             app.UseRouting();
-            app.UseCors(options => options.AllowAnyOrigin().AllowAnyMethod());
+            app.UseCors("AllowOrigin");
 
+            app.UseAuthentication();
             app.UseAuthorization();
+ 
 
             app.UseEndpoints(endpoints =>
             {

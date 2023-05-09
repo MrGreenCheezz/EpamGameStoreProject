@@ -12,7 +12,8 @@ namespace CapstoneProjectLibrary
     {
         public DbSet<GameItem> Games { get; set; }
         public DbSet<GameGenres> GameGenres { get; set; }
-        public DbSet<GameGenre> genresList { get; set; }
+        public DbSet<GameGenre> genresList { get; set; }       
+        public DbSet<User> users { get; set; }
 
         private readonly IDbConfig _configuration = new DbConfiguration();
 

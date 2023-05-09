@@ -9,6 +9,7 @@ using CapstoneProjectLibrary.Repositories;
 using CapstoneProjectLibrary.Interfaces;
 using Microsoft.AspNetCore.Http;
 using System.IO;
+using Microsoft.AspNetCore.Authorization;
 
 namespace CapstoneProjectAPI.Controllers
 {
@@ -24,9 +25,10 @@ namespace CapstoneProjectAPI.Controllers
 
         [Route("api/games/getGames")]
         [HttpGet]
-        public List<GameItem> GetGamesWithPagination(int amount, int offset = 0, List<int> genresFilter = null)
+        [Authorize]
+        public async Task<IActionResult> GetGamesWithPagination(int amount, int offset = 0, List<int> genresFilter = null)
         {
-              return GameRepo.GetItemsWithPagination(amount, offset, genresFilter);         
+                return Ok(GameRepo.GetItemsWithPagination(amount, offset, genresFilter));                   
         }
 
         [Route("api/games/editGame")]

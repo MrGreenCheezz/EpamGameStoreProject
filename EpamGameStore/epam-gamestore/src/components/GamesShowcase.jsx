@@ -3,12 +3,16 @@ import GameItemCard from './GameItemCard';
 import './ComponentsCSS/GameShowcase.css'
 import PaginationComponent from './PaginationComponent';
 import AddGameComponent from './AddGameComponent';
+import Cookies from 'js-cookie';
+import axios from 'axios';
+
 
 export default class GamesShowcase extends Component {
   constructor(props) {
     super(props)
     this.ChangeCurrentPage = this.ChangeCurrentPage.bind(this);
     this.AddGameButtonClicked = this.AddGameButtonClicked.bind(this);
+    this.TestLogin = this.TestLogin.bind(this);
 
     this.state = {
       Items: [],
@@ -37,9 +41,22 @@ export default class GamesShowcase extends Component {
   }
 
   async GetItemsFromApi(offset) {
-    const response = await fetch("http://localhost:21409/api/games/getGames?amount=" + this.state.MaxItemsOnPage + "&offset=" + offset);
+    const response = await fetch("http://localhost:21409/api/games/getGames?amount=" + this.state.MaxItemsOnPage + "&offset=" + offset,{
+      method: 'GET',
+      credentials: 'include'
+    });
     const jsonResult = await response.json()
     return jsonResult;
+  }
+
+
+
+  async TestLogin(){
+    fetch('http://localhost:21409/api/auth/login?email=aasdadsdasd&password=1234', {
+      method: 'POST',
+      credentials : 'include'
+    } ).then(response => {console.log(response)})
+
   }
 
   
