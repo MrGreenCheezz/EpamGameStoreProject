@@ -1,0 +1,29 @@
+.MainShowcase{
+    background-color: rgb(43, 43, 43);
+    display: flex;
+    flex-wrap: wrap;
+    max-width: 1250px;
+    margin: 0 auto;
+    height: fit-content;
+    min-height: 100%;
+    flex: 1 1 100%;
+    flex-grow: 1;
+    align-content: start;
+}
+.CardContainer{
+    display: flex;
+    flex-wrap: wrap;
+
+}
+.Pagination{
+    margin:auto;
+}
+.ShowcaseHeader{
+    display: flex;
+    width: 100%;
+    margin-top: 10px;
+    flex-direction: column;
+}
+.test::placeholder{
+    color:white;
+}

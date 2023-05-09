@@ -1,5 +1,7 @@
 ﻿using CapstoneProjectLibrary.Interfaces;
 using CapstoneProjectLibrary.Models;
+using CapstoneProjectLibrary.Tools;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,13 +17,24 @@ namespace CapstoneProjectLibrary.Repositories
         {
             entityContext = new EntityContext();
         }
-        public async Task<int> AddGame(GameItem item)
+
+        public GameRepository(EntityContext entityContext)
+        {
+            this.entityContext = entityContext;
+        }
+
+        public int AddGame(GameItem item, IFormFile? file)
         {
 
-            var id = CheckGame(item, entityContext);
+            var id = CheckGameId(item, entityContext);
 
-            await entityContext.Games.AddAsync(item);
-            await entityContext.SaveChangesAsync();
+            if(file != null)
+            {
+               item.ImageUrl = ImageTool.SaveImage(file);
+            }      
+            
+            entityContext.Games.AddAsync(item);
+            entityContext.SaveChangesAsync();
             return id;
         }
 
@@ -52,15 +65,27 @@ namespace CapstoneProjectLibrary.Repositories
             var listItem = entityContext.Games.FirstOrDefault(i => i.Id == id);
             var newItem = listItem;
             newItem.Id = null;
-            var newItemId = await AddGame(listItem);
+            var newItemId = AddGame(listItem, null);
             return newItemId;
 
         }
-
-        public  List<GameItem> GetItemsWithPagination(int amount, int offset = 0)
+        public  List<GameItem> GetItemsWithPagination(int amount, int offset = 0, List<int> genresFilter = null)
         {
-            var returnList = entityContext.Games.OrderByDescending(item => item.Id).Skip(offset * amount).Take(amount).ToList();
-            return returnList;
+            var returnList = entityContext.Games.OrderByDescending(item => item.Id);
+            if(genresFilter != null && genresFilter.Count != 0)
+            {
+                var tmpGamesList = new List<GameGenres>();
+                tmpGamesList = entityContext.GameGenres.ToList();
+                foreach(var genre in genresFilter)
+                {
+                    var tmpFilteredList = tmpGamesList.Where(g => g.GenreId == genre).Select(g => g.GameId).ToList();
+                    tmpGamesList = entityContext.GameGenres.Where(g => tmpFilteredList.Contains(g.GameId)).ToList();
+                }
+                var gamesIds = tmpGamesList.Select(g => g.GameId).ToList();
+                var gamesToReturn = entityContext.Games.Where(g => gamesIds.Contains((int)g.Id)).Skip(Math.Abs(offset * amount)).Take(Math.Abs(amount)).ToList();
+                return gamesToReturn;
+            }
+            return returnList.Skip(Math.Abs(offset * amount)).Take(Math.Abs(amount)).ToList();
         }
 
         public int GetQuantity()
@@ -69,7 +94,7 @@ namespace CapstoneProjectLibrary.Repositories
             return count;
         }
 
-        public async Task EditGame(int id, string name, string description, float price, string genres)
+        public async Task EditGame(int id, string name, string description, float price, IFormFile? file)
         {
 
             CheckGame(id, entityContext);
@@ -91,14 +116,14 @@ namespace CapstoneProjectLibrary.Repositories
                 item.Price = price;
             }
 
-            if (genres != null)
+            if(file != null)
             {
-                item.Genres = genres;
+                item.ImageUrl = ImageTool.SaveImage(file);
             }
 
             await entityContext.SaveChangesAsync();
         }
-        private int CheckGame(GameItem item, EntityContext baseContext)
+        private int CheckGameId(GameItem item, EntityContext baseContext)
         {
             if (item == null)
             {
