@@ -6,6 +6,6 @@ namespace CapstoneProjectLibrary.Interfaces
 {
     public interface IDbConfig
     {
-        public string GetConnectionString();
+        public string GetConnectionString(ConfigurationTypes configType);
     }
 }

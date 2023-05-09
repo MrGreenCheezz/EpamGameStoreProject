@@ -7,68 +7,72 @@ using System;
 using CapstoneProjectLibrary.Models;
 using CapstoneProjectLibrary.Repositories;
 using CapstoneProjectLibrary.Interfaces;
+using Microsoft.AspNetCore.Http;
+using System.IO;
 
 namespace CapstoneProjectAPI.Controllers
 {
     public class GameController : Controller
     {
         public IRepository GameRepo { get; set; }
-        public GameController(IRepository gameRepo)
+        public IGenresRepository GenresRepo { get; set; }
+        public GameController(IRepository gameRepo, IGenresRepository genresRepo)
         {
             GameRepo = gameRepo;
-        }
-        
-        [Route("getItems")]
-        [HttpGet]
-        public List<GameItem> GetItemsWithPagination(int amount, int offset = 0)
-        {
-              return GameRepo.GetItemsWithPagination(amount, offset);         
+            GenresRepo = genresRepo;
         }
 
-        [Route("editItem")]
+        [Route("api/games/getGames")]
+        [HttpGet]
+        public List<GameItem> GetGamesWithPagination(int amount, int offset = 0, List<int> genresFilter = null)
+        {
+              return GameRepo.GetItemsWithPagination(amount, offset, genresFilter);         
+        }
+
+        [Route("api/games/editGame")]
         [HttpPost]
-        public async Task<IActionResult> PostEditItem( int id, string name = null, string description = null,
-           float price = 0, string genres = null)
+        public async Task<IActionResult> PostEditGame( int id, string name = null, string description = null,
+           float price = 0, IFormFile file = null)
         {
             
-            await GameRepo.EditGame(id,name,description,price, genres);
+            await GameRepo.EditGame(id,name,description,price, file);
             return Ok();
         }
+     
 
-        [Route("addItem")]
+        [Route("api/games/addGame")]
         [HttpPost]
-        public async Task<IActionResult> AddItem(string name, string description, float price, string genres)
+        public int AddGame(string name, string description, float price, [FromForm] IFormFile file)
         {
             var item = new GameItem();
 
             item.Name = name;
             item.Description = description;
             item.Price = price;
-            item.Genres = genres;
-
             
-            var id = await GameRepo.AddGame(item);
+            
+            var id = GameRepo.AddGame(item, file);
 
-            return Ok(id);
+            return id;
         }
 
-        [Route("getItemsCount")]
+        [Route("api/games/getGamesCount")]
         [HttpGet]
         public int GetCount()
         {
             return GameRepo.GetQuantity();
         }
 
-        [Route("deleteItem")]
+        [Route("api/games/deleteGame")]
         [HttpPost]
-        public async Task<IActionResult> DeleteItem(int id)
+        public async Task<IActionResult> DeleteGame(int id)
         {
             await GameRepo.DeleteGame(id);
 
             return Ok();
         }
 
-        [Route("getItem")]
+        [Route("api/games/getGame")]
         [HttpGet]
         public GameItem GetGame(int id)
         {

@@ -8,12 +8,26 @@ namespace CapstoneProjectLibrary
 {
     public class DbConfiguration : IDbConfig
     {
-        public string Value { get; set; }
+        private readonly ConfigurationBuilder _configBuilder = new ConfigurationBuilder();
 
-        public string GetConnectionString()
+        private string _connectionString { get; set; }
+        public string _developmentConnectionString { get; set; }
+
+        public DbConfiguration()
         {
-            var config = new ConfigurationBuilder().AddJsonFile("appsettings.Development.json").Build();
-            return config.GetValue<string>("ConnectionStrings:Value");
+            _connectionString = _configBuilder.AddJsonFile("appsettings.json").Build().GetValue<string>("ConnectionStrings:Value");
+            _developmentConnectionString = _configBuilder.AddJsonFile("appsettings.Development.json").Build().GetValue<string>("ConnectionStrings:Value");
+        }
+
+        public string GetConnectionString(ConfigurationTypes configType)
+        {
+            switch (configType){
+                case ConfigurationTypes.Development:
+                    return _developmentConnectionString;
+                case ConfigurationTypes.Release:
+                    return _connectionString;
+            }
+            return "";
         }
     }
 }
