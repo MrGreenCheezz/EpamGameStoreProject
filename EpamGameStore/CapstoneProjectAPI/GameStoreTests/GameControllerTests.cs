@@ -46,10 +46,10 @@ namespace GameStoreTests
             var dummyDescription = "Description 1";
             var dummyPrice = 19.99f;
             var dummyGenres = "Action";
-            _mockRepository.Setup(repo => repo.EditGame(dummyId, dummyName, dummyDescription, dummyPrice, dummyGenres, null)).Verifiable();
+            _mockRepository.Setup(repo => repo.EditGame(dummyId, dummyName, dummyDescription, dummyPrice, null)).Verifiable();
 
             // Act
-            var result = await _controller.PostEditGame(dummyId, dummyName, dummyDescription, dummyPrice, dummyGenres);
+            var result = await _controller.PostEditGame(dummyId, dummyName, dummyDescription, dummyPrice);
 
             // Assert
             Assert.IsInstanceOf<OkResult>(result);
@@ -68,7 +68,7 @@ namespace GameStoreTests
             _mockRepository.Setup(repo => repo.AddGame(It.Is<GameItem>(i => i.Name == dummyName && i.Description == dummyDecription), null)).Returns(expectedId);
 
             // Act
-            var result = _controller.AddGame(dummyName, dummyDecription, dummyPrice, dummyGenres, null);
+            var result = _controller.AddGame(dummyName, dummyDecription, dummyPrice, null);
 
             // Assert
             Assert.That(expectedId == result);
@@ -118,5 +118,7 @@ namespace GameStoreTests
             // Assert
             Assert.That(expected == result);
         }
+
+
     }
 }

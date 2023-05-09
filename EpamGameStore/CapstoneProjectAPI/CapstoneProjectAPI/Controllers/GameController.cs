@@ -15,39 +15,40 @@ namespace CapstoneProjectAPI.Controllers
     public class GameController : Controller
     {
         public IRepository GameRepo { get; set; }
-        public GameController(IRepository gameRepo)
+        public IGenresRepository GenresRepo { get; set; }
+        public GameController(IRepository gameRepo, IGenresRepository genresRepo)
         {
             GameRepo = gameRepo;
+            GenresRepo = genresRepo;
         }
-        
+
         [Route("api/games/getGames")]
         [HttpGet]
-        public List<GameItem> GetGamesWithPagination(int amount, int offset = 0)
+        public List<GameItem> GetGamesWithPagination(int amount, int offset = 0, List<int> genresFilter = null)
         {
-              return GameRepo.GetItemsWithPagination(amount, offset);         
+              return GameRepo.GetItemsWithPagination(amount, offset, genresFilter);         
         }
 
         [Route("api/games/editGame")]
         [HttpPost]
         public async Task<IActionResult> PostEditGame( int id, string name = null, string description = null,
-           float price = 0, string genres = null, IFormFile file = null)
+           float price = 0, IFormFile file = null)
         {
             
-            await GameRepo.EditGame(id,name,description,price, genres, file);
+            await GameRepo.EditGame(id,name,description,price, file);
             return Ok();
         }
      
 
         [Route("api/games/addGame")]
         [HttpPost]
-        public int AddGame(string name, string description, float price, string genres, [FromForm] IFormFile file)
+        public int AddGame(string name, string description, float price, [FromForm] IFormFile file)
         {
             var item = new GameItem();
 
             item.Name = name;
             item.Description = description;
             item.Price = price;
-            item.Genres = genres;
             
             
             var id = GameRepo.AddGame(item, file);

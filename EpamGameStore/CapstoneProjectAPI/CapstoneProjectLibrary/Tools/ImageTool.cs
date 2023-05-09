@@ -19,7 +19,7 @@ namespace CapstoneProjectLibrary.Tools
                         {
                             file.CopyTo(fileStream);
                         }
-                        imageUrl = "http://localhost:21409/getPic?PicName=" + file.FileName;
+                        imageUrl = "http://localhost:21409/api/pictures/getPicture?PicName=" + file.FileName;
                     }
                     else
                     {
@@ -28,7 +28,7 @@ namespace CapstoneProjectLibrary.Tools
                         {
                             file.CopyTo(fileStream);
                         }
-                        imageUrl = "http://localhost:21409/getPic?PicName=" + file.FileName;
+                        imageUrl = "http://localhost:21409/api/pictures/getPicture?PicName=" + file.FileName;
                     }
                 }
                 catch (PathTooLongException ex)

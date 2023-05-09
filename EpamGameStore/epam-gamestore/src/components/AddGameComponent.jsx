@@ -16,7 +16,7 @@ export default class AddGameComponent extends Component {
     }
 
     AddGameRequest() {
-        fetch('http://localhost:21409/addGame?name=' + this.state.GameName +
+        fetch('http://localhost:21409/api/games/addGame?name=' + this.state.GameName +
             '&description=' + this.state.GameDescription +
             '&price=' + this.state.GamePrice +
             '&genres=' + "", {

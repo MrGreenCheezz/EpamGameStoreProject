@@ -4,7 +4,6 @@ using CapstoneProjectLibrary.Tools;
 using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -27,7 +26,7 @@ namespace CapstoneProjectLibrary.Repositories
         public int AddGame(GameItem item, IFormFile? file)
         {
 
-            var id = CheckGame(item, entityContext);
+            var id = CheckGameId(item, entityContext);
 
             if(file != null)
             {
@@ -70,11 +69,23 @@ namespace CapstoneProjectLibrary.Repositories
             return newItemId;
 
         }
-
-        public  List<GameItem> GetItemsWithPagination(int amount, int offset = 0)
+        public  List<GameItem> GetItemsWithPagination(int amount, int offset = 0, List<int> genresFilter = null)
         {
-            var returnList = entityContext.Games.OrderByDescending(item => item.Id).Skip(Math.Abs(offset * amount)).Take(Math.Abs(amount)).ToList();
-            return returnList;
+            var returnList = entityContext.Games.OrderByDescending(item => item.Id);
+            if(genresFilter != null && genresFilter.Count != 0)
+            {
+                var tmpGamesList = new List<GameGenres>();
+                tmpGamesList = entityContext.GameGenres.ToList();
+                foreach(var genre in genresFilter)
+                {
+                    var tmpFilteredList = tmpGamesList.Where(g => g.GenreId == genre).Select(g => g.GameId).ToList();
+                    tmpGamesList = entityContext.GameGenres.Where(g => tmpFilteredList.Contains(g.GameId)).ToList();
+                }
+                var gamesIds = tmpGamesList.Select(g => g.GameId).ToList();
+                var gamesToReturn = entityContext.Games.Where(g => gamesIds.Contains((int)g.Id)).Skip(Math.Abs(offset * amount)).Take(Math.Abs(amount)).ToList();
+                return gamesToReturn;
+            }
+            return returnList.Skip(Math.Abs(offset * amount)).Take(Math.Abs(amount)).ToList();
         }
 
         public int GetQuantity()
@@ -83,7 +94,7 @@ namespace CapstoneProjectLibrary.Repositories
             return count;
         }
 
-        public async Task EditGame(int id, string name, string description, float price, string genres, IFormFile? file)
+        public async Task EditGame(int id, string name, string description, float price, IFormFile? file)
         {
 
             CheckGame(id, entityContext);
@@ -105,11 +116,6 @@ namespace CapstoneProjectLibrary.Repositories
                 item.Price = price;
             }
 
-            if (genres != null)
-            {
-                item.Genres = genres;
-            }
-
             if(file != null)
             {
                 item.ImageUrl = ImageTool.SaveImage(file);
@@ -117,7 +123,7 @@ namespace CapstoneProjectLibrary.Repositories
 
             await entityContext.SaveChangesAsync();
         }
-        private int CheckGame(GameItem item, EntityContext baseContext)
+        private int CheckGameId(GameItem item, EntityContext baseContext)
         {
             if (item == null)
             {
