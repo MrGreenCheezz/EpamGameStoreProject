@@ -11,6 +11,10 @@
     font-size: 1.1rem;
     color: white;
 }
+.text-button{
+    font-size: small;
+    
+}
 
 .AuthPanelFading{
     position: fixed;

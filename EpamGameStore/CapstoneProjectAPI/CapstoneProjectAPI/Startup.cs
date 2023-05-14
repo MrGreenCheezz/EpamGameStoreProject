@@ -48,7 +48,7 @@ namespace CapstoneProjectAPI
                    options.Cookie.SameSite = SameSiteMode.None;
                    options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
                    options.Cookie.Path = "/";
-                   options.Cookie.HttpOnly = true;
+                   options.Cookie.HttpOnly = false;
                });
 
             services.AddCors(c =>

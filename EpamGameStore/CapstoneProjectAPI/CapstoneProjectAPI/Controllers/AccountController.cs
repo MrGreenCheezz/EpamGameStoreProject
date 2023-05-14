@@ -9,6 +9,8 @@ using System.Collections.Generic;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using CapstoneProjectLibrary;
+using Microsoft.AspNetCore.Authorization;
+using System.Linq;
 
 namespace CapstoneProjectAPI.Controllers
 {
@@ -47,6 +49,35 @@ namespace CapstoneProjectAPI.Controllers
             }
             else
                 return Problem("User already exist");
+        }
+
+        [HttpGet]
+        [Route("api/auth/authCheck")]
+        [Authorize]
+        public async Task<IActionResult> CheckAuthorization()
+        {
+            return Ok();
+        }
+
+        [HttpGet]
+        [Route("api/auth/signOut")]
+        [Authorize]
+        public async Task<IActionResult> SignOut()
+        {
+            await HttpContext.SignOutAsync();
+            return Ok();
+        }
+
+        [HttpGet]
+        [Route("api/auth/getUserInfo")]
+        [Authorize]
+        public async Task<IActionResult> GetUserInfo()
+        {
+            var UserClaim = HttpContext.User;
+            var email = UserClaim.FindFirst(ClaimsIdentity.DefaultNameClaimType).Value;
+            var user = _context.users.Where(u => u.Email == email).Select(u => new {Email = u.Email,
+                FirstName = u.FirstName, LastName = u.LastName, AvatarUrl = u.AvatarUrl}).FirstOrDefault();
+            return Ok(user);
         }
 
         [HttpPost]
