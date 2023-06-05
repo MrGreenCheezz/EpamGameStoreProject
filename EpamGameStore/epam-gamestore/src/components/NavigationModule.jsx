@@ -49,6 +49,12 @@ export default class NavigationModule extends Component {
       })
       var data = await dataRespo.json()
       this.setState({ UserFirstName: data.firstName, UserSecondName: data.lastName, UserAvatar: data.avatarUrl })
+      if(newState){
+        localStorage.setItem("UserName", data.firstName + " " + data.lastName)
+      }
+      else{
+        localStorage.removeItem("UserName")
+      }
   }
 
   async SignOutClicked() {

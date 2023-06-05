@@ -14,6 +14,7 @@ using Microsoft.OpenApi.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace CapstoneProjectAPI
@@ -32,10 +33,14 @@ namespace CapstoneProjectAPI
         {
 
             services.AddControllersWithViews();
+            services.AddControllers().AddJsonOptions(x =>
+                x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
 
             services.AddScoped<IDbConfig, DbConfiguration>();
 
             services.AddSingleton<IRepository, GameRepository>();
+
+            services.AddSingleton<ICommentRepo, CommentRepo>();
 
             services.AddSingleton<IUsersRepository, UsersRepository>();
 

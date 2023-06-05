@@ -3,6 +3,7 @@ using System;
 using CapstoneProjectLibrary;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace CapstoneProjectLibrary.Migrations
 {
     [DbContext(typeof(EntityContext))]
-    partial class DataBaseMainModelSnapshot : ModelSnapshot
+    [Migration("20230523182948_AddedComments")]
+    partial class AddedComments
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -30,13 +33,7 @@ namespace CapstoneProjectLibrary.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("AuthorName")
-                        .HasColumnType("text");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<int>("ParentPostId")
+                    b.Property<int>("ParentId")
                         .HasColumnType("integer");
 
                     b.Property<string>("Value")
@@ -45,33 +42,6 @@ namespace CapstoneProjectLibrary.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Comments");
-                });
-
-            modelBuilder.Entity("CapstoneProjectLibrary.Models.CommentReply", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("AuthorName")
-                        .HasColumnType("text");
-
-                    b.Property<int>("CommentId")
-                        .HasColumnType("integer");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<string>("Value")
-                        .HasColumnType("text");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CommentId");
-
-                    b.ToTable("CommentReplies");
                 });
 
             modelBuilder.Entity("CapstoneProjectLibrary.Models.GameGenre", b =>
@@ -163,22 +133,6 @@ namespace CapstoneProjectLibrary.Migrations
                     b.HasKey("id");
 
                     b.ToTable("users");
-                });
-
-            modelBuilder.Entity("CapstoneProjectLibrary.Models.CommentReply", b =>
-                {
-                    b.HasOne("CapstoneProjectLibrary.Models.Comment", "Comment")
-                        .WithMany("Replyes")
-                        .HasForeignKey("CommentId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Comment");
-                });
-
-            modelBuilder.Entity("CapstoneProjectLibrary.Models.Comment", b =>
-                {
-                    b.Navigation("Replyes");
                 });
 #pragma warning restore 612, 618
         }

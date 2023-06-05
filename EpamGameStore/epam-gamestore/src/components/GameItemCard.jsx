@@ -89,7 +89,7 @@ DeleteGameRequest() {
             className="card-img" alt="..." style={{ height: 300 }}></img>
         </object>
         <div className="card-img-overlay custom-bg">
-          <a className="card-text" style={{ fontSize: 20 }} href={"/game/" + this.props.Id} target="_blank">{this.state.GameName}</a>
+          <a className="card-text text-button" style={{ fontSize: 20 }} href={"/game/" + this.props.Id} target="_blank">{this.state.GameName}</a>
           <h5 className="card-title CardPrice">$ {this.state.GamePrice}</h5>
         </div>
         <div className='HoveringMenu' style={{ display: this.state.MenuState }}>
@@ -99,6 +99,7 @@ DeleteGameRequest() {
         <div className='EditGameScreen' style={{display: this.state.EditState}} >
           <div className='EditGameForm'>
               <div>
+                <b style={{fontSize: 35, color:"black"}}>Edit Game</b>
                 <div className='row AddGameField'>
                   <input value={this.state.GameName} placeholder={"Game name.."}
                     onChange={(event) => this.setState({ GameName: event.target.value })}></input>
@@ -111,9 +112,9 @@ DeleteGameRequest() {
                   <input value={this.state.GamePrice} placeholder={"Game price.."}
                     onChange={(event) => this.setState({ GamePrice: event.target.value })} type="number"></input>
                 </div>
-                <div className='row AddGameField'>
-                  <button type="button" className='btn btn-success' style={{ width: 120, height: 40, marginTop: 10 }} onClick={this.EditGameRequest}>EditGame</button>
-                  <button type="button" className='btn btn-success' style={{ width: 120, height: 40, marginTop: 10 }} onClick={this.closeEditMenuClicked}>CloseMenu</button>
+                <div className='row'>
+                  <button type="button" className='btn btn-success' style={{ width: 110, height: 40, marginTop: 10 }} onClick={this.EditGameRequest}>EditGame</button>
+                  <button type="button" className='btn btn-success' style={{ width: 110, height: 40, marginTop: 10 }} onClick={this.closeEditMenuClicked}>CloseMenu</button>
                 </div>
               </div>
           </div>
