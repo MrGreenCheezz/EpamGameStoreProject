@@ -3,6 +3,8 @@ import './ComponentsCSS/NavigationModule.css'
 import myLogo from '../assets/logo.png'
 import AuthPanel from './AuthPanel'
 import Cookies from 'universal-cookie'
+import ShoppingCartComponent from './ShoppingCartComponent'
+import ShoppingCartMenu from './ShoppingCartMenu'
 
 export default class NavigationModule extends Component {
   constructor(props) {
@@ -21,7 +23,8 @@ export default class NavigationModule extends Component {
       Authorized: false,
       UserFirstName: "",
       UserSecondName: "",
-      UserAvatar: ""
+      UserAvatar: "",
+      IsCartShowed: false
     }
   }
 
@@ -74,6 +77,8 @@ export default class NavigationModule extends Component {
     this.setState({ AuthPanelMode: mode })
   }
 
+  
+
   SignInClicked() {
     this.ChangePanelMode("Login");
     this.ChangePanelVision(true);
@@ -113,7 +118,10 @@ export default class NavigationModule extends Component {
               </ul>
             </div>
           </div>
-          <div className='SignButton'>
+          <div className="ShoppingCartSection">
+            <ShoppingCartComponent></ShoppingCartComponent>
+          </div>
+          <div className='SignButton'>          
             {this.state.Authorized != true ? <div> <b className='text-button' onClick={this.SignInClicked}>Sign in  </b> <b>/</b><b className='text-button' onClick={this.SignUpClicked}>  Sign up</b></div>
               : <div>
                 <img src={this.state.UserAvatar} style={{ width: 30, borderRadius: "50%" }}></img>
@@ -123,8 +131,11 @@ export default class NavigationModule extends Component {
                 </div>}
           </div>
         </nav>
-        <div className='AuthPanelFading' style={{ display: this.state.IsAuthPanelOpen ? 'flex' : 'none' }}>
-          <AuthPanel Mode={this.state.AuthPanelMode} HideFunction={this.ChangePanelVision} IsVisible={this.state.IsAuthPanelOpen} SetAuthorized={this.setAuthorized}></AuthPanel>
+        <div>
+          <div className='AuthPanelFading' style={{ display: this.state.IsAuthPanelOpen ? 'flex' : 'none' }}>
+            <AuthPanel Mode={this.state.AuthPanelMode} HideFunction={this.ChangePanelVision} IsVisible={this.state.IsAuthPanelOpen} SetAuthorized={this.setAuthorized}></AuthPanel>
+          </div>
+          
         </div>
       </div>
     )

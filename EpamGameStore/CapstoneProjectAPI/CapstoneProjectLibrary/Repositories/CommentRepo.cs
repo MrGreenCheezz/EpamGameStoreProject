@@ -112,30 +112,27 @@ namespace CapstoneProjectLibrary.Repositories
 
         public async Task<List<Comment>> GetComments(int parentPostId)
         {
-            //Это исправляет ошибку при большом колличестве запросов
-            using(var context = new EntityContext())
-            {
+            //Изучить инъекцию зависимости и контекст подавать таким образом
+           
                 if (parentPostId == 0)
                 {
                     throw new ArgumentException("Id error");
                 }
-                var list = await context.Comments.Where(c => c.ParentPostId == parentPostId).ToListAsync();
+                var list = await entityContext.Comments.Where(c => c.ParentPostId == parentPostId).ToListAsync();
                 return list;
-            }          
+         
         }
 
         public async  Task<List<CommentReply>> GetReplies(int parentCommentId)
         {
             //Это исправляет ошибку при большом колличестве запросов
-            using (var context = new EntityContext())
-            {
+ 
                 if (parentCommentId == 0)
                 {
                     throw new ArgumentException("Id error");
                 }
-                var list = await context.CommentReplies.Where(r => r.CommentId == parentCommentId).ToListAsync();
-                return list;
-            }          
+                var list = await entityContext.CommentReplies.Where(r => r.CommentId == parentCommentId).ToListAsync();
+                return list;       
         }
 
         public Comment EditComment(int commentId, string value)
