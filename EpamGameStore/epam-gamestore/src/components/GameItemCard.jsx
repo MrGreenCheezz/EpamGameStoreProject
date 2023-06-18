@@ -83,7 +83,7 @@ DeleteGameRequest() {
   }
 
   CallEventAddItem(){
-    eventBus.dispatch("ItemAdded", { Id:this.props.Id, Name: this.props.Title, Price: this.props.Price, ImageUrl: this.props.ImageUrl });
+    eventBus.dispatch("ItemAdded", { Id:this.props.Id, Name: this.props.Title, Price: this.props.Price, ImageUrl: this.props.ImageUrl, Count: 1});
   }
 
   render() {
