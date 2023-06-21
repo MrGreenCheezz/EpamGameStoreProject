@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -38,6 +39,7 @@ namespace CapstoneProjectAPI
             services.AddControllers().AddJsonOptions(x =>
                 x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
 
+
             services.AddScoped<IDbConfig, DbConfiguration>();
 
             services.AddScoped<IRepository, GameRepository>();
@@ -59,7 +61,7 @@ namespace CapstoneProjectAPI
                    options.Cookie.Path = "/";
                    options.Cookie.HttpOnly = false;
                });
-
+            
             services.AddCors(c =>
             {
                 c.AddPolicy("AllowOrigin", options => options.WithOrigins("http://127.0.0.1:5173")

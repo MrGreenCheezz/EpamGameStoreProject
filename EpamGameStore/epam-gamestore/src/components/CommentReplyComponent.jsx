@@ -105,7 +105,7 @@ export default class CommentReplyComponent extends Component {
     const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
 
     this.setState({ DayDistance: Math.abs(days), HourDistance: Math.abs(hours), MinuteDistance: Math.abs(minutes) });
-    if (localStorage.getItem("UserName") === this.props.Author) {
+    if (localStorage.getItem("UserName") === this.props.Author || localStorage.getItem("UserRole") === "Admin" || localStorage.getItem("UserRole") === "Manager") {
       this.setState({ CanBeEdited: true });
     }
   }

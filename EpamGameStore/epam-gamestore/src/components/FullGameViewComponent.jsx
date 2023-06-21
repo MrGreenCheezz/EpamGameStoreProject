@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import CommentSectionComponent from './CommentSectionComponent';
 import './ComponentsCSS/FullGameViewComponent.css'
+import eventBus  from '../eventBus'
 
 export default class FullGameViewComponent extends Component {
     constructor(props) {
@@ -9,6 +10,7 @@ export default class FullGameViewComponent extends Component {
         this.handleImageClick = this.handleImageClick.bind(this);
         this.onFileInputChange = this.onFileInputChange.bind(this);
         this.GetGenresFromApi = this.GetGenresFromApi.bind(this);
+        this.CallEventAddItem = this.CallEventAddItem.bind(this);
         this.state = {
             GameName: "",
             GamePrice: 0,
@@ -77,6 +79,11 @@ export default class FullGameViewComponent extends Component {
         return jsonResult;
     }
 
+    
+  CallEventAddItem(){
+    eventBus.dispatch("ItemAdded", { Id:this.state.GameId, Name: this.state.GameName, Price: this.state.GamePrice, ImageUrl: this.state.ImageUrl, Count: 1});
+  }
+
     render() {
         return (
             <div className='GameMainContainer'>
@@ -103,7 +110,7 @@ export default class FullGameViewComponent extends Component {
                                 </div>
                             </div>
                             <div className='BuyButtonSection'>
-                                <button type="button" className='btn btn-success' style={{ width: 150, height: 50 }}>Buy!</button>
+                                <button type="button" className='btn btn-success' style={{ width: 150, height: 50 }} onClick={()=> this.CallEventAddItem()}>Buy!</button>
                             </div>
                         </div>
                         <hr style={{ "height": "2px", "width": "100%", "borderWidth": 0, "color": "white", "backgroundColor": "white" }}></hr>

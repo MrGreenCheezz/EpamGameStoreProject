@@ -43,6 +43,7 @@ namespace CapstoneProjectAPI.Controllers
 
             newComment.AuthorName = user.FirstName + " " + user.LastName;
             newComment.ParentPostId = postId;
+            newComment.AuthorEmail = email;
             newComment.Value = value;
             var data = DateTime.UtcNow;         
             newComment.CreatedAt = data;
@@ -69,51 +70,174 @@ namespace CapstoneProjectAPI.Controllers
 
         [HttpPost]
         [Route("api/comments/editcomment")]
-        public async Task<Comment> EditComment(int commentId, string newValue)
+        [Authorize]
+        public async Task<IActionResult> EditComment(int commentId, string newValue)
         {
-            var comment =  CommentRepo.EditComment(commentId, newValue);
-            return comment;
+            var editor = (ClaimsIdentity)User.Identity;
+            var editorEmail = editor.FindFirst(ClaimsIdentity.DefaultNameClaimType).Value;
+            var role = editor.FindFirst(ClaimsIdentity.DefaultRoleClaimType).Value;
+
+            if (role != null && (role == "Admin" || role == "Manager"))
+            {
+                var comment = CommentRepo.EditComment(commentId, newValue);
+                return Ok(comment);
+            }
+
+            if(editorEmail != null)
+            {
+                var checkComment = _context.Comments.FirstOrDefault(com => com.Id == commentId);
+                if(checkComment != null)
+                {
+                    if(editorEmail == checkComment.AuthorEmail)
+                    {
+                        var comment = CommentRepo.EditComment(commentId, newValue);
+                        return Ok(comment);
+                    }
+                    else
+                    {
+                        return NotFound();
+                    }
+                    
+                }
+                else
+                {
+                    return NotFound();
+                }
+            }
+            else
+            {
+                return NotFound();
+            }                   
         }
 
         [HttpPost]
         [Route("api/comments/editreply")]
-        public async Task<CommentReply> EditReply(int replyId, string newValue)
+        [Authorize]
+        public async Task<IActionResult> EditReply(int replyId, string newValue)
         {
-            var commentReply = CommentRepo.EditReply(replyId, newValue);
-            return commentReply;
+            var editor = (ClaimsIdentity)User.Identity;
+            var editorEmail = editor.FindFirst(ClaimsIdentity.DefaultNameClaimType).Value;
+            var role = editor.FindFirst(ClaimsIdentity.DefaultRoleClaimType).Value;
+
+            if (role != null && (role == "Admin" || role == "Manager"))
+            {
+                var commentReply = CommentRepo.EditReply(replyId, newValue);
+                return Ok(commentReply);
+            }
+
+            if (editorEmail != null)
+            {
+                var checkComment = _context.CommentReplies.FirstOrDefault(com => com.Id == replyId);
+                if (checkComment != null)
+                {
+                    if (editorEmail == checkComment.AuthorEmail)
+                    {
+                        var commentReply = CommentRepo.EditReply(replyId, newValue);
+                        return Ok(commentReply);
+                    }
+                    else
+                    {
+                        return NotFound();
+                    }
+
+                }
+                else
+                {
+                    return NotFound();
+                }
+            }
+            else
+            {
+                return NotFound();
+            }
         }
 
         [HttpPost]
         [Route("api/comments/deletecomment")]
         public async Task<IActionResult> DeleteComment(int commentId)
         {
-            var val = CommentRepo.DeleteComment(commentId);
-            if (val)
+            var editor = (ClaimsIdentity)User.Identity;
+            var editorEmail = editor.FindFirst(ClaimsIdentity.DefaultNameClaimType).Value;
+            var role = editor.FindFirst(ClaimsIdentity.DefaultRoleClaimType).Value;
+
+            if (role != null && (role == "Admin" || role == "Manager"))
             {
-                return Ok();
+                var val = CommentRepo.DeleteComment(commentId);
+                return Ok(val);
+            }
+
+            if (editorEmail != null)
+            {
+                var checkComment = _context.Comments.FirstOrDefault(com => com.Id == commentId);
+                if (checkComment != null)
+                {
+                    if (editorEmail == checkComment.AuthorEmail)
+                    {
+                        var val = CommentRepo.DeleteComment(commentId);
+                        return Ok(val);
+                    }
+                    else
+                    {
+                        return NotFound();
+                    }
+
+                }
+                else
+                {
+                    return NotFound();
+                }
             }
             else
             {
-                return BadRequest();
+                return NotFound();
             }
+            
+           
         }
         [HttpPost]
         [Route("api/comments/deletereply")]
         public async Task<IActionResult> DeleteReply(int replyId)
         {
-            var val = CommentRepo.DeleteReply(replyId);
-            if (val)
+            var editor = (ClaimsIdentity)User.Identity;
+            var editorEmail = editor.FindFirst(ClaimsIdentity.DefaultNameClaimType).Value;
+            var role = editor.FindFirst(ClaimsIdentity.DefaultRoleClaimType).Value;
+
+            if (role != null && (role == "Admin" || role == "Manager"))
             {
-                return Ok();
+                var val = CommentRepo.DeleteReply(replyId);
+                return Ok(val);
+            }
+
+            if (editorEmail != null)
+            {
+                var checkComment = _context.CommentReplies.FirstOrDefault(com => com.Id == replyId);
+                if (checkComment != null)
+                {
+                    if (editorEmail == checkComment.AuthorEmail)
+                    {
+                        var val = CommentRepo.DeleteReply(replyId);
+                        return Ok(val);
+                    }
+                    else
+                    {
+                        return NotFound();
+                    }
+
+                }
+                else
+                {
+                    return NotFound();
+                }
             }
             else
             {
-                return BadRequest();
+                return NotFound();
             }
         }
 
         [HttpPost]
         [Route("api/comments/addreply")]
+        [Authorize]
         public async Task<IActionResult> AddReply(int parentCommentId, string value)
         {
             var UserClaim = HttpContext.User;
@@ -129,6 +253,7 @@ namespace CapstoneProjectAPI.Controllers
 
             newCommentReply.AuthorName = user.FirstName + " " + user.LastName;
             newCommentReply.CommentId = parentCommentId;
+            newCommentReply.AuthorName = email;
             newCommentReply.Value = value;
             var data = DateTime.UtcNow;
             newCommentReply.CreatedAt = data;

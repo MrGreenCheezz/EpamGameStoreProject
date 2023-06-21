@@ -14,5 +14,6 @@ namespace CapstoneProjectLibrary.Models
         public DateTime CreatedAt { get; set; }
         public int CommentId { get; set; }
         public virtual Comment Comment { get; set; }
+        public string AuthorEmail { get; set; }
     }
 }
