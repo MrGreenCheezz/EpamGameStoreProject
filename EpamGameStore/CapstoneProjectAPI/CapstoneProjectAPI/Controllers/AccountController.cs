@@ -93,7 +93,7 @@ namespace CapstoneProjectAPI.Controllers
 
                     return Ok("/");
                 }
-            return Problem("Bad login or password  ");
+            return Problem("Bad login or password");
         }
 
         [HttpPost]
