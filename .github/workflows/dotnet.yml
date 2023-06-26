@@ -6,8 +6,12 @@ name: .NET
 on:
   push:
     branches: [ "master" ]
+    paths:
+      - EpamGameStore/CapstoneProjectAPI/**
   pull_request:
     branches: [ "master" ]
+    paths:
+      - EpamGameStore/CapstoneProjectAPI/**
 
 jobs:
   build:
