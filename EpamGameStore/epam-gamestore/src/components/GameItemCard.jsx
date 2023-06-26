@@ -14,19 +14,23 @@ export default class GameItemCard extends Component {
     this.EditGameRequest = this.EditGameRequest.bind(this);
     this.DeleteGameRequest = this.DeleteGameRequest.bind(this);
     this.CallEventAddItem = this.CallEventAddItem.bind(this);
+    this.CanBeEdited = this.CanBeEdited.bind(this);
     this.state = {
       imageUrl: this.props.ImageUrl,
       MenuState: "none",
       GameName: this.props.Title,
       GameDescription: this.props.Description,
       GamePrice: this.props.Price,
-      EditState: "none"
+      EditState: "none",
+      IsRoleOk: false
     }
 
   }
 
   cardHovered() {
+   if(this.state.IsRoleOk){
     this.setState({ MenuState: "flex" })
+   }
   }
 
   cardEndHover() {
@@ -58,6 +62,12 @@ export default class GameItemCard extends Component {
         this.setState({EditState: "none"})
 }
 
+CanBeEdited(){
+  if(this.state.IsRoleOk && this.state.MenuState === "flex"){
+    return {display : "flex"};
+  }
+}
+
 DeleteGameRequest() {
   const filedata = new FormData();
   filedata.append('file', '');
@@ -75,6 +85,9 @@ DeleteGameRequest() {
   componentDidMount() {
     if (this.state.imageUrl == null) {
       this.HandleError();
+    }
+    if (localStorage.getItem("UserRole") === "Admin" || localStorage.getItem("UserRole") === "Manager") {
+      this.setState({ IsRoleOk: true });
     }
   }
 
@@ -103,7 +116,7 @@ DeleteGameRequest() {
             <button type="button" className="btn btn-success" onClick={this.CallEventAddItem}>Buy!</button>
           </div>
         </div>
-        <div className='HoveringMenu' style={{ display: this.state.MenuState }}>
+        <div className='HoveringMenu' style={{display: this.state.MenuState}}>
           <img src='https://www.pdfzorro.com/Images/IconsFunktionen/pdf-edit.webp' onClick={this.editIconClicked}></img>
           <img src='https://cdn-icons-png.flaticon.com/512/542/542724.png' onClick={this.DeleteGameRequest}></img>
         </div>

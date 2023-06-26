@@ -54,10 +54,13 @@ export default class NavigationModule extends Component {
       this.setState({ UserFirstName: data.firstName, UserSecondName: data.lastName, UserAvatar: data.avatarUrl })
       if(newState){
         localStorage.setItem("UserName", data.firstName + " " + data.lastName)
+        localStorage.setItem("UserRole", data.role)
       }
       else{
         localStorage.removeItem("UserName")
+        localStorage.removeItem("UserRole")
       }
+      window.location.reload(false);
   }
 
   async SignOutClicked() {
@@ -66,7 +69,9 @@ export default class NavigationModule extends Component {
       credentials: 'include'
     })
     this.setState({ Authorized: false })
-
+    localStorage.removeItem("UserName")
+    localStorage.removeItem("UserRole")
+    window.location.reload(false);
   }
 
   ChangePanelVision(newState) {
