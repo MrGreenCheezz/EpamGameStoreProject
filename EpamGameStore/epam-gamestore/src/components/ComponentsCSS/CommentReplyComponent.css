@@ -1,0 +1,9 @@
+.Reply{
+    color: white;
+    margin-left: 10%;
+    margin-top: 50px;
+}
+.ReplyTopText{
+    font-weight: bold;
+    text-decoration: underline;
+}

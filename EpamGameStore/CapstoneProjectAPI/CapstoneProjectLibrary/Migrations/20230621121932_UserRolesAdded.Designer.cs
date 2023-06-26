@@ -3,6 +3,7 @@ using System;
 using CapstoneProjectLibrary;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace CapstoneProjectLibrary.Migrations
 {
     [DbContext(typeof(EntityContext))]
-    partial class DataBaseMainModelSnapshot : ModelSnapshot
+    [Migration("20230621121932_UserRolesAdded")]
+    partial class UserRolesAdded
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -29,9 +32,6 @@ namespace CapstoneProjectLibrary.Migrations
                         .HasColumnType("integer");
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("AuthorEmail")
-                        .HasColumnType("text");
 
                     b.Property<string>("AuthorName")
                         .HasColumnType("text");
@@ -57,9 +57,6 @@ namespace CapstoneProjectLibrary.Migrations
                         .HasColumnType("integer");
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("AuthorEmail")
-                        .HasColumnType("text");
 
                     b.Property<string>("AuthorName")
                         .HasColumnType("text");

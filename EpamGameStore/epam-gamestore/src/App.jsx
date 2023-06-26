@@ -8,8 +8,18 @@ import SiteFooter from './components/SiteFooter'
 
 function App() {
 
+  const [scrollState, setScrollState] = useState(0);
+
+  window.scrollLockFunction = (state) => {
+    setScrollState(state);
+  }
+
+  const scrollStyle = {
+    overflow: scrollState ? "hidden" : "auto"
+  }
+
   return (
-    <div className="App">
+    <div className="App" style={scrollStyle}>
       <NavigationModule></NavigationModule>
       <GamesShowcase></GamesShowcase>
       <SiteFooter></SiteFooter>

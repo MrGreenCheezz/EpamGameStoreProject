@@ -1,8 +1,8 @@
 .Card {
     border-style: solid;
     border: 20px;
-    width: fit-content;
-    height: 250px;
+    width: 250px;
+    height: 200px;
     position: relative;
     margin: 0;
     margin-left: 10px;
@@ -11,7 +11,7 @@
 }
 .Custom{
     margin-left: 15px;
-    width: fit-content;
+    width: 250px;
     position: relative;
 }
 .CardPrice{
@@ -36,6 +36,10 @@
     
 }
 
+.CardMenu{
+    display: flex;
+    flex-direction: row;
+}
 
 .CardBody{
     position: relative;
@@ -103,6 +107,20 @@
 }
 
 .EditGameForm{
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    justify-content: center;
+    align-content: center;
+    width: 20vw;
+    height: fit-content;
+    border-radius: 20px;
+    background-color: rgb(155, 155, 155);
     border-color: grey;
     border-radius: 15px;
+}
+
+.text-button:hover{
+    font-size: 1.8rem;
+    color: white;
 }

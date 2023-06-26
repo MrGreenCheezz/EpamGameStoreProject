@@ -2,7 +2,8 @@
     background-color: rgb(43, 43, 43);
     width: 90%;
     margin: auto;
-    height: 100vh;
+    height: fit-content;
+    
 }
 
 .GamePicture img{
@@ -20,6 +21,7 @@
 
 .GameInfo{
     color: white;
+    width: initial;
 }
 .GameCard{
     margin-left: auto;
