@@ -25,7 +25,6 @@ namespace CapstoneProjectAPI.Controllers
 
         [Route("api/games/getGames")]
         [HttpGet]
-        [Authorize]
         public async Task<IActionResult> GetGamesWithPagination(int amount, int offset = 0, List<int> genresFilter = null)
         {
                 return Ok(GameRepo.GetItemsWithPagination(amount, offset, genresFilter));                   
@@ -33,6 +32,7 @@ namespace CapstoneProjectAPI.Controllers
 
         [Route("api/games/editGame")]
         [HttpPost]
+        [Authorize(Roles = "Admin, Manager")]
         public async Task<IActionResult> PostEditGame( int id, string name = null, string description = null,
            float price = 0, IFormFile file = null)
         {
@@ -44,6 +44,7 @@ namespace CapstoneProjectAPI.Controllers
 
         [Route("api/games/addGame")]
         [HttpPost]
+        [Authorize(Roles = "Admin, Manager")]
         public int AddGame(string name, string description, float price, [FromForm] IFormFile file)
         {
             var item = new GameItem();
@@ -67,6 +68,7 @@ namespace CapstoneProjectAPI.Controllers
 
         [Route("api/games/deleteGame")]
         [HttpPost]
+        [Authorize(Roles = "Admin, Manager")]
         public async Task<IActionResult> DeleteGame(int id)
         {
             await GameRepo.DeleteGame(id);

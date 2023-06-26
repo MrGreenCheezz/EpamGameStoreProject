@@ -15,6 +15,10 @@ namespace CapstoneProjectLibrary
         public DbSet<GameGenre> genresList { get; set; }       
         public DbSet<User> users { get; set; }
 
+        public DbSet<Comment> Comments { get; set; }
+        public DbSet<CommentReply> CommentReplies { get; set; }
+        
+
         private readonly IDbConfig _configuration = new DbConfiguration();
 
         public EntityContext()

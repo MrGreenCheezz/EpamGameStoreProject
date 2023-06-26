@@ -9,12 +9,12 @@ import GameFullPage from './GameFullPage';
 
 
 ReactDOM.createRoot(document.getElementById('root')).render(
-  <React.StrictMode>
+
     <BrowserRouter>
     <Routes>
       <Route path='/' element={<App></App>}></Route>
       <Route path='/game/:id' element={<GameFullPage/>}></Route>
     </Routes>
     </BrowserRouter>
-  </React.StrictMode>,
+,
 )

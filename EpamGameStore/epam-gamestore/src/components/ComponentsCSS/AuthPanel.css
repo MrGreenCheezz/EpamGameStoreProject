@@ -27,7 +27,7 @@
     height: 4vh;
 }
 
-.MainForm button{
+.MainPanel button{
     display: flex;
     justify-content: center;
     margin-top: 20px;

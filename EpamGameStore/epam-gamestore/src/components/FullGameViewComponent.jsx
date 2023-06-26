@@ -1,5 +1,7 @@
 import React, { Component } from 'react'
+import CommentSectionComponent from './CommentSectionComponent';
 import './ComponentsCSS/FullGameViewComponent.css'
+import eventBus  from '../eventBus'
 
 export default class FullGameViewComponent extends Component {
     constructor(props) {
@@ -7,6 +9,8 @@ export default class FullGameViewComponent extends Component {
         this.fileInputRef = React.createRef();
         this.handleImageClick = this.handleImageClick.bind(this);
         this.onFileInputChange = this.onFileInputChange.bind(this);
+        this.GetGenresFromApi = this.GetGenresFromApi.bind(this);
+        this.CallEventAddItem = this.CallEventAddItem.bind(this);
         this.state = {
             GameName: "",
             GamePrice: 0,
@@ -53,6 +57,12 @@ export default class FullGameViewComponent extends Component {
             GamePrice: result.price,
             GameDescription: result.description, GameId: result.id, GameGenres: result.genres, ImageUrl: result.imageUrl
         });
+        const genres = await this.GetGenresFromApi(this.props.Id);
+        var genresString = "";
+        genres.map(genre => {
+            genresString += genre.name + " ";     
+        })
+        this.setState({GameGenres: genresString});
         if(this.state.ImageUrl == null){
             this.setState({ImageUrl: "https://raw.githubusercontent.com/openintents/filemanager/master/promotion/icons/ic_launcher_filemanager_512.png"});
         }
@@ -63,6 +73,16 @@ export default class FullGameViewComponent extends Component {
         const jsonResult = await response.json()
         return jsonResult;
     }
+    async GetGenresFromApi(id) {
+        const response = await fetch("http://localhost:21409/api/genres/getGameGenres?gameId=" + id);
+        const jsonResult = await response.json()
+        return jsonResult;
+    }
+
+    
+  CallEventAddItem(){
+    eventBus.dispatch("ItemAdded", { Id:this.state.GameId, Name: this.state.GameName, Price: this.state.GamePrice, ImageUrl: this.state.ImageUrl, Count: 1});
+  }
 
     render() {
         return (
@@ -90,17 +110,18 @@ export default class FullGameViewComponent extends Component {
                                 </div>
                             </div>
                             <div className='BuyButtonSection'>
-                                <button type="button" className='btn btn-success' style={{ width: 150, height: 50 }}>Buy!</button>
+                                <button type="button" className='btn btn-success' style={{ width: 150, height: 50 }} onClick={()=> this.CallEventAddItem()}>Buy!</button>
                             </div>
                         </div>
                         <hr style={{ "height": "2px", "width": "100%", "borderWidth": 0, "color": "white", "backgroundColor": "white" }}></hr>
                         <div className='GameDescription'>
+                            <p>Game description:</p>
                             <p>{this.state.GameDescription}</p>
                         </div>
                     </div>
                 </div>
                 <hr style={{ "height": "2px", "width": "100%", "borderWidth": 0, "color": "white", "backgroundColor": "white" }}></hr>
-                <p style={{ color: "white" }}>Here belongs comment section, they will be later!</p>
+                <CommentSectionComponent Id={this.props.Id}></CommentSectionComponent>
             </div>
         )
     }

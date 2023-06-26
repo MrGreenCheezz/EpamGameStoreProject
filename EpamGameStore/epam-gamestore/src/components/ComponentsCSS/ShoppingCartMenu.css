@@ -1,0 +1,23 @@
+.CartMainForm{
+    color: rgb(0, 0, 0);
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    justify-content: center;
+    align-content: center;
+    width: 80vw;
+    height: fit-content;
+    border-radius: 20px;
+    background-color: rgb(155, 155, 155);
+}
+.CartCheckoutForm{
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    justify-content: center;
+    align-content: center;
+    width: 40vw;
+    height: fit-content;
+    border-radius: 20px;
+    background-color: rgb(155, 155, 155);
+}

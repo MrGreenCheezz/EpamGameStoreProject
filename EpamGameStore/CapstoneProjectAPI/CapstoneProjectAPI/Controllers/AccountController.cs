@@ -9,6 +9,9 @@ using System.Collections.Generic;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using CapstoneProjectLibrary;
+using Microsoft.AspNetCore.Authorization;
+using System.Linq;
+using CapstoneProjectLibrary.Tools;
 
 namespace CapstoneProjectAPI.Controllers
 {
@@ -42,11 +45,40 @@ namespace CapstoneProjectAPI.Controllers
                      password
                 );
 
-                await Authenticate(email);
+                await Authenticate(email, UserPermissionsRoles.User);
                 return Ok("/");
             }
             else
                 return Problem("User already exist");
+        }
+
+        [HttpGet]
+        [Route("api/auth/authCheck")]
+        [Authorize]
+        public async Task<IActionResult> CheckAuthorization()
+        {
+            return Ok();
+        }
+
+        [HttpGet]
+        [Route("api/auth/signOut")]
+        [Authorize]
+        public async Task<IActionResult> SignOut()
+        {
+            await HttpContext.SignOutAsync();
+            return Ok();
+        }
+
+        [HttpGet]
+        [Route("api/auth/getUserInfo")]
+        [Authorize]
+        public async Task<IActionResult> GetUserInfo()
+        {
+            var UserClaim = HttpContext.User;
+            var email = UserClaim.FindFirst(ClaimsIdentity.DefaultNameClaimType).Value;
+            var user = _context.users.Where(u => u.Email == email).Select(u => new {Email = u.Email,
+                FirstName = u.FirstName, LastName = u.LastName, AvatarUrl = u.AvatarUrl, Role = u.Role.ToString()}).FirstOrDefault();
+            return Ok(user);
         }
 
         [HttpPost]
@@ -57,18 +89,44 @@ namespace CapstoneProjectAPI.Controllers
                 User user = await _context.users.FirstOrDefaultAsync(u => u.Email == email && u.Password == password);
                 if (user != null)
                 {
-                    await Authenticate(email);
+                    await Authenticate(email, user.Role);
 
                     return Ok("/");
                 }
             return Problem("Bad login or password");
         }
 
-        private async Task Authenticate(string userName)
+        [HttpPost]
+        [Route("api/auth/changeRole")]
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> ChangeRole(string Email, UserPermissionsRoles newRole)
+        {
+            var user = await _context.users.FirstOrDefaultAsync(u => u.Email == Email);
+            if(user != null)
+            {
+                user.Role = newRole;
+                await _context.SaveChangesAsync();
+
+            }
+            return Ok();
+        }
+
+        [HttpGet]
+        [Route("api/test/checkRole")]
+        [Authorize(Roles = "Admin")]
+        public string GetRole(int userId)
+        {
+            var claim = (ClaimsIdentity)User.Identity;
+            return claim.FindFirst(ClaimsIdentity.DefaultRoleClaimType).Value;
+        }
+
+
+        private async Task Authenticate(string userName, UserPermissionsRoles roleToAuth)
         {
             var claims = new List<Claim>
             {
-                new Claim(ClaimsIdentity.DefaultNameClaimType, userName)
+                new Claim(ClaimsIdentity.DefaultNameClaimType, userName),
+                new Claim(ClaimsIdentity.DefaultRoleClaimType, roleToAuth.ToString())
             };
             ClaimsIdentity id = new ClaimsIdentity(claims, "ApplicationCookie", ClaimsIdentity.DefaultNameClaimType, ClaimsIdentity.DefaultRoleClaimType);
             await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(id));
