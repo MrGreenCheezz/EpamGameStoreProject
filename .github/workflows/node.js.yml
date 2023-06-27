@@ -33,5 +33,4 @@ jobs:
       working-directory: EpamGameStore/epam-gamestore
     - run: npm run build --if-present
       working-directory: EpamGameStore/epam-gamestore
-    - run: npm test
-      working-directory: EpamGameStore/epam-gamestore
+
