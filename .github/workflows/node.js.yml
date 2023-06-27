@@ -26,6 +26,7 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
+        cache-dependency-path: EpamGameStore/epam-gamestore/package-lock.json
     - run: npm i
       working-directory: EpamGameStore/epam-gamestore
     - run: npm ci
