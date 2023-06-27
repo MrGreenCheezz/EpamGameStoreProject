@@ -1,6 +1,7 @@
 # EpamGameStoreProject
 
-![example workflow](https://github.com/EpamGameStoreProject/.github/workflows/dotnet.yml/badge.svg)
+![DotnetBuild](https://github.com/MrGreenCheezz/EpamGameStoreProject/actions/workflows/dotnet.yml/badge.svg)
+![NodeJsBuild](https://github.com/MrGreenCheezz/EpamGameStoreProject/actions/workflows/node.js.yml/badge.svg)
 
 This is small game store project.
 
