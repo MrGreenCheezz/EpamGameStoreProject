@@ -1,5 +1,7 @@
 # EpamGameStoreProject
 
+![example workflow](https://github.com/EpamGameStoreProject/.github/workflows/dotnet.yml/badge.svg)
+
 This is small game store project.
 
 This repository contains Website made on React and Asp.net api server.
