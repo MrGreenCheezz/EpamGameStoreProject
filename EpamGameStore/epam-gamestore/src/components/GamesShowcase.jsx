@@ -3,8 +3,6 @@ import GameItemCard from './GameItemCard';
 import './ComponentsCSS/GameShowcase.css'
 import PaginationComponent from './PaginationComponent';
 import AddGameComponent from './AddGameComponent';
-import Cookies from 'js-cookie';
-import axios from 'axios';
 
 
 export default class GamesShowcase extends Component {

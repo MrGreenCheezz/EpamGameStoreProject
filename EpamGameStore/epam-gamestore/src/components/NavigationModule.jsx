@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import './ComponentsCSS/NavigationModule.css'
 import myLogo from '../assets/logo.png'
 import AuthPanel from './AuthPanel'
-import Cookies from 'universal-cookie'
 import ShoppingCartComponent from './ShoppingCartComponent'
 import ShoppingCartMenu from './ShoppingCartMenu'
 
